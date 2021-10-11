@@ -91,6 +91,14 @@
 <script>
   document.getElementById('logo').src="https://drive.google.com/uc?id=1GgHfgGJka68FvwCzj2KdwoKPkZnq8M86";
 
-  var icsFile = "https://calendar.google.com/calendar/ical/it02ksll506koj17bb10klc46g%40group.calendar.google.com/public/basic.ics";
+  var url = "https://www.googleapis.com/calendar/v3/calendars/g17fclipmpmpjsqjve2doghk4k@group.calendar.google.com/events?key=AIzaSyBkBlxiLA52jgsN6jzzz7UyZT-b1vV3D64";
+  
+  $.ajax({
+   type: 'GET',
+   url: a,
+   success: function(jsondata){
+        console.log(jsondata);
+   }
+})
 
 </script>
