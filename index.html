@@ -95,11 +95,14 @@
   
   var url = "https://www.googleapis.com/calendar/v3/calendars/" + calendarId + "/events?key=AIzaSyBkBlxiLA52jgsN6jzzz7UyZT-b1vV3D64";
   
+  var items = [];
+  
   $.ajax({
    type: 'GET',
    url: url,
    success: function(jsondata){
-        console.log(jsondata);
+     items = jsondata.items; 
+     console.log(items);
    }
 })
 
