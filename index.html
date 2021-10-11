@@ -1,7 +1,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 <style>
-  body,html {height:100%;overflow:hidden;}
+  body,html {height:100%;}
   .wrapper {
     width: 670px;
     height: 1000px;
@@ -38,7 +38,6 @@
 
   .events {
     width: 100%;
-
   }
 
   .primary, .secondary {
@@ -65,28 +64,13 @@
 <div class="wrapper">
   <div class="title">UPCOMING <br/>SCHEDULE</div>
   <img id="logo"/>
-  <div class="events">
-    <div class="primary">
-      <div><b>TUESDAY, SEPTEMBER 28</b></div>
-      <div><b>8:00 PM EST</b> - Sea of Thieves with IndigoTycho, Gutraas1 and Dani89</div>
-    </div>
-    <div class="secondary">
-      <div><b>WEDNESDAY, SEPTEMBER 29</b></div>
-      <div><b>9:00 PM EST</b> - Sea of Thieves with ShipwreckxShaun, Gutraas1 and MicaLuz2</div>
-    </div>
-    <div class="primary">
-      <div><b>SUNDAY, OCTOBER 3</b></div>
-      <div><b>3:00 PM EST</b> - Sea of Thieves for SLaMDannigan's Birthday Crap-A-Thon</div>
-    </div>
-    <div class="secondary">
-      <div><b>WEDNESDAY, OCTOBER 6</b></div>
-      <div><b>8:00 PM EST</b> - Sea of Thieves with ShipwreckxShaun, Bearly and Bulldogs6989</div>
-    </div>
-  <div>  
+  <div class="events"><div>  
 <div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data-1970-2030.js" integrity="sha512-em60km3Olu0GWvK2C3BndCQAYhHyv637yD2PBdR1pAZnmIqjBy0nzKOu64Qx7Q9yesAlFRwvP4GK0gP9jIvM2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
 <script>
   document.getElementById('logo').src="https://drive.google.com/uc?id=1GgHfgGJka68FvwCzj2KdwoKPkZnq8M86";
@@ -95,14 +79,39 @@
   
   var url = "https://www.googleapis.com/calendar/v3/calendars/" + calendarId + "/events?key=AIzaSyBkBlxiLA52jgsN6jzzz7UyZT-b1vV3D64";
   
-  var items = [];
+  function getNextFiveEvents(data) {
+    var j = 1;
+    for (var i = 0; i < data.items.length; i++){
+      if (j > 5)
+        continue;
+
+      var start = Date.parse(data.items[i].start.dateTime);
+      if (Date.parse(data.items[i].start.dateTime) > Date.now()){
+        if (j % 2 != 0) {
+          $('.events').append('<div class="primary">' + 
+              '<div><b>' + moment(start).format('dddd, MMMM Do').toUpperCase() + '</b></div>' + 
+              '<div><b>' + moment(start).tz('America/New_York').format('h:mm:ss A z') + '</b> - ' + data.items[i].summary +  ' </div>' + 
+            '</div>'
+          );
+        } else {
+          $('.events').append('<div class="secondary">' + 
+              '<div><b>' + moment(start).format('dddd, MMMM Do').toUpperCase() + '</b></div>' + 
+              '<div><b>' + moment(start).tz('America/New_York').format('h:mm:ss A z') + '</b> - ' + data.items[i].summary +  ' </div>' + 
+            '</div>'
+          );
+        }
+
+        j++;
+      }
+    }
+  }
   
   $.ajax({
    type: 'GET',
    url: url,
    success: function(jsondata){
-     items = jsondata.items; 
-     console.log(items);
+     //console.log(items);
+     getNextFiveEvents(jsondata);
    }
 })
 
