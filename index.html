@@ -91,11 +91,13 @@
 <script>
   document.getElementById('logo').src="https://drive.google.com/uc?id=1GgHfgGJka68FvwCzj2KdwoKPkZnq8M86";
 
-  var url = "https://www.googleapis.com/calendar/v3/calendars/g17fclipmpmpjsqjve2doghk4k@group.calendar.google.com/events?key=AIzaSyBkBlxiLA52jgsN6jzzz7UyZT-b1vV3D64";
+  var calendarId = 'g17fclipmpmpjsqjve2doghk4k@group.calendar.google.com';
+  
+  var url = "https://www.googleapis.com/calendar/v3/calendars/" + calendarId + "/events?key=AIzaSyBkBlxiLA52jgsN6jzzz7UyZT-b1vV3D64";
   
   $.ajax({
    type: 'GET',
-   url: a,
+   url: url,
    success: function(jsondata){
         console.log(jsondata);
    }
